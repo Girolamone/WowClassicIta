@@ -102,7 +102,6 @@ function WowClassicIta:CreateButtonsOnGameFrames()
 
         -- Update quest frame text based on the current user settings
         self:UpdateQuestFrame({
-            --Title = self:GetQuestTitle(questID),
             Description = self:GetQuestDescription(questID),
             Objectives = self:GetQuestObjectives(questID),
             Completion = self:GetQuestCompletion(questID),
