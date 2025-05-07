@@ -13,7 +13,7 @@ local addonName, addonTable = ...
 --- @field questLogWidgetContainer table The frame of the quest log widget container
 --- @field gossipFrameWidgetContainer table The frame of the gossip widget container
 
---- @class WowClassicIta : AceAddon-3.0, AceConsole-3.0, AceEvent-3.0, AceHook-3.0
+--- @class WowClassicIta : AceAddon-3.0, AceConsole-3.0, AceEvent-3.0, AceHook-3.0, AceTimer-3.0
 --- @field db table A reference to persistent saved val in DB
 --- @field options table Options table for the add-on
 --- @field configFrame table The configuration frame for the add-on
@@ -33,7 +33,7 @@ local addonName, addonTable = ...
 --- @field widgets WowItaWidgets Table containing the buttons of the add-on
 --- @field widgetContainer WowItaWidgetContainer Table containing the widget containers of the add-on
 local WowClassicIta = _G.LibStub("AceAddon-3.0"):NewAddon(addonTable, addonName, "AceConsole-3.0", "AceEvent-3.0",
-    "AceHook-3.0")
+    "AceHook-3.0", "AceTimer-3.0")
 
 local cmdAliases = { "wci", "ita", "wowita", "italian", addonName }
 
@@ -170,13 +170,8 @@ function WowClassicIta:OnEnable()
         questLogFrameToggle = questLogIdButton,
     }
 
-    local onQuestLogEntryClick = function()
-        self:Trace("[Core:onQuestLogEntryClick] Quest Log Entry clicked!")
-        if not self.db.profile.quests.enabled or self.db.profile.disable then
-            --- If the quest translation is disabled, return without doing anything.
-            return
-        end
-
+    local onSelectQuestLogEntry = function()
+        self:Trace("[Core:onSelectQuestLogEntry] Fired function handler")
         local questID = self:GetQuestID()
         if not questID then
             --- If the quest ID is not available, log an error
@@ -187,24 +182,34 @@ function WowClassicIta:OnEnable()
 
         self:PermitTranslationForThisQuest(questID)
 
-        self:Debug("Valid Quest ID found: " .. tostring(questID))
-        -- Update the quest frame with according with the user settings
+        -- Update quest frame text based on the current user settings
         self:UpdateQuestFrame({
-            --Title = self:GetQuestTitle(questID, true),  // not translated in QuestsData
-            Details = self:GetQuestDescription(questID, true),
-            Completion = self:GetQuestCompletion(questID, true),
-            Objectives = self:GetQuestObjectives(questID, true),
-            Description = self:GetQuestDescription(questID, true),
+            Description = self:GetQuestDescription(questID),
+            Objectives = self:GetQuestObjectives(questID),
+            Completion = self:GetQuestCompletion(questID),
         })
     end
 
     --QuestLogDetailScrollFrame:HookScript("OnShow", onQuestLogEntryClick)
-    EmptyQuestLogFrame:HookScript("OnShow", function()
+    --[[EmptyQuestLogFrame:HookScript("OnShow", function()
         self:Trace("[Core:EmptyQuestLogFrame:Hooks:OnShow] EmptyQuestLogFrame hoocked OnShow() started!")
         self.questLogIdButton:Hide()
+    end)]]
+    --self:SecureHook('SelectQuestLogEntry', onSelectQuestLogEntry)
+    self:SecureHook('SelectQuestLogEntry', function ()
+        self:Trace("[Core:Hooks:SelectQuestLogEntry] Quest Log Entry clicked!")
+        if not self.db.profile.quests.enabled or self.db.profile.disable then
+            --- If the quest translation is disabled, return without doing anything.
+            self:Debug("Quest translation is disabled, so return without doing anything.")
+            return
+        end
+
+        -- Schedule the delayed execution after 1 second (adjust the delay as needed)
+        self:ScheduleTimer(onSelectQuestLogEntry, 0.1)
     end)
 
-    self:SecureHook('SelectQuestLogEntry', onQuestLogEntryClick)
+    --QuestLogDetailScrollFrame:HookScript("OnShow", onSelectQuestLogEntry);
+
 
 
     self:RegisterEvent('PLAYER_LOGIN', function()
