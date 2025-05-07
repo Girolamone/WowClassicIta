@@ -1,0 +1,37 @@
+## Author: @project-author@
+## Interface: 11507
+## Notes: An attempt ot localize WOW Classic in Italian (big thanks to name, name name).
+## Title: WowClassicIta
+## Version: @project-version@
+
+## X-Curse-Project-ID: [number]
+## X-WoWI-ID: [number]
+
+## SavedVariables: WowClassicItaDB
+
+# Scripts are loaded in the order they are listed - libraries must always
+# be declared first.
+Libs\LibStub\LibStub.lua
+Libs\AceAddon-3.0\AceAddon-3.0.xml
+Libs\AceEvent-3.0\AceEvent-3.0.xml
+Libs\AceDB-3.0\AceDB-3.0.xml
+#Libs\AceDBOptions-3.0\AceDBOptions-3.0.xml
+Libs\AceGUI-3.0\AceGUI-3.0.xml
+Libs\AceConfig-3.0\AceConfig-3.0.xml
+Libs\AceConsole-3.0\AceConsole-3.0.xml
+
+# Translation data
+Data\QuestsData.lua
+Data\SpellsData.lua
+Data\GossipData.lua
+Data\UiData.lua
+
+# Addon scripts
+Core.lua
+Default.lua
+Options.lua
+
+Utils\Shared.lua
+Utils\Quests.lua
+Utils\Logging.lua
+Utils\Buttons.lua
