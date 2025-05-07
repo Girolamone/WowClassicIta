@@ -87,27 +87,24 @@ function WowClassicIta:CreateButtonsOnGameFrames()
 
     --- Handle click events for the button
     local onCLickHandler = function(button)
-        self:Trace("Quest button clicked -> onClickHandler() fired!")
-        local language = self.isCurrentQuestTranslated and "itIT" or GetLocale()
+        self:Trace("[Buttons:OnClickHandler] Quest button clicked -> onClickHandler() fired!")
 
         --- When the button is clicked, toggle the translation
         self.isCurrentQuestTranslated = not self.isCurrentQuestTranslated
 
         local questID = self:GetQuestID()
         if not questID then
-            self:Error("Impossible to retrieve current Quest ID!")
+            self:Error("Impossible to retrieve current Quest ID from WOW API!")
             return
         end
 
-        --- Set language in quest button
-        button:SetText("Quest ID=" .. tostring(questID) .. " (" .. language .. ") ")
+        self:PermitTranslationForThisQuest(questID)
 
         -- Update quest frame text based on the current user settings
         self:UpdateQuestFrame({
             --Title = self:GetQuestTitle(questID),
             Description = self:GetQuestDescription(questID),
             Objectives = self:GetQuestObjectives(questID),
-            Rewards = self:GetQuestRewards(questID),
             Completion = self:GetQuestCompletion(questID),
         })
     end

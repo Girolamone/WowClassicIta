@@ -89,7 +89,7 @@ end
 
 --- When Addon is enabled
 function WowClassicIta:OnEnable()
-    self:Trace("Addon correctly loaded and enabled!")
+    self:Trace("[Core:OnEnable()] Addon correctly loaded and enabled!")
 
     --@do-not-package@
     --- Debug porpuse buttons (that not will be available in the release)
@@ -171,7 +171,7 @@ function WowClassicIta:OnEnable()
     }
 
     local onQuestLogEntryClick = function()
-        self:Trace("onQuestLogEntryClick() hook fired!")
+        self:Trace("[Core:onQuestLogEntryClick] Quest Log Entry clicked!")
         if not self.db.profile.quests.enabled or self.db.profile.disable then
             --- If the quest translation is disabled, return without doing anything.
             return
@@ -181,7 +181,7 @@ function WowClassicIta:OnEnable()
         if not questID then
             --- If the quest ID is not available, log an error
             --- and return without doing anything.
-            self:Error("Impossible retrieve current Quest ID!")
+            self:Error("Impossible retrieve current Quest ID from WOW API!")
             return
         end
 
@@ -200,7 +200,7 @@ function WowClassicIta:OnEnable()
 
     --QuestLogDetailScrollFrame:HookScript("OnShow", onQuestLogEntryClick)
     EmptyQuestLogFrame:HookScript("OnShow", function()
-        self:Trace("EmptyQuestLogFrame hoocked OnShow() started!")
+        self:Trace("[Core:EmptyQuestLogFrame:Hooks:OnShow] EmptyQuestLogFrame hoocked OnShow() started!")
         self.questLogIdButton:Hide()
     end)
 
@@ -223,7 +223,7 @@ function WowClassicIta:OnEnable()
 
     --- the player progress inside a quest.
     self:RegisterEvent('QUEST_PROGRESS', function()
-        self:Trace("QUEST_PROGRESS event fired!")
+        self:Trace("[Core:RegisterEvents(QUEST_PROGRESS)] event fired!")
         if not self.db.profile.quests.enabled then
             --- If the quest translation is disabled, return without doing anything.
             return
@@ -249,7 +249,7 @@ function WowClassicIta:OnEnable()
 
     --- the player get details from a quest.
     self:RegisterEvent('QUEST_DETAIL', function()
-        self:Trace("QUEST_DETAIL event fired!")
+        self:Trace("[Core:RegisterEvent(QUEST_DETAIL)] event fired!")
         if not self.db.profile.quests.enabled then
             --- If the quest translation is disabled, return without doing anything.
             return
@@ -275,7 +275,7 @@ function WowClassicIta:OnEnable()
 
     --- the player complete a quest.
     self:RegisterEvent('QUEST_COMPLETE', function()
-        self:Trace("QUEST_COMPLETE event fired!")
+        self:Trace("[Core:RegisterEvent(QUEST_COMPLETE)] event fired!")
         if not self.db.profile.quests.enabled then
             --- If the quest translation is disabled, return without doing anything.
             return

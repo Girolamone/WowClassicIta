@@ -26,10 +26,10 @@ end
 --- @return SharedUiTextData QuestsCommonText The shared text data for quests translated or of the current locale
 function WowClassicIta:SmartGetUiSharedText()
    if self.db.profile.disabled or not self.db.profile.quests.enabled or not self.isCurrentQuestTranslated then
-       self:Trace("GetQuestsUxTextFromContext(): returning default text")
+       self:Trace("Core:SmartGetUiSharedText: returning default text")
        return addonTable.SharedUiTextData[GetLocale()]
    else
-       self:Trace("GetQuestsUxTextFromContext(): returning translated text")
+       self:Trace("Core:SmartGetUiSharedText: returning translated text")
        return addonTable.SharedUiTextData["itIT"]
    end
 end

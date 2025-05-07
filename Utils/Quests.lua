@@ -223,7 +223,7 @@ end
 --- The structure of this table should include all necessary fields
 --- required to update the quest frame (e.g., quest title, objectives, etc.).
 function WowClassicIta:UpdateQuestFrame(questData)
-    self:Trace("UpdateQuestFrame() called!")
+    self:Trace("[Quests:UpdateFrame] UpdateQuestFrame() called!")
 
     --- Update quest/quest-log frame common static text (like titles, rewards text, ecc.)
     self:UpdateQuestsCommonTexts()
@@ -306,7 +306,7 @@ function WowClassicIta:UpdateQuestsCommonTexts()
     local sharedObjectiveText = commonQuestTextData.Objectives
     local sharedItemSingleRewardsText = commonQuestTextData.ItemSingleReward
 
-    self:Trace("sharedObjectiveText: " .. sharedObjectiveText)
+    self:Trace("[Core:QuestsUpdateQuestsCommonText] CosharedObjectiveText: " .. sharedObjectiveText)
     QuestInfoObjectivesHeader:SetFont(self.fontHeader, 18)
     QuestInfoObjectivesHeader:SetText(sharedObjectiveText)
     QuestInfoObjectivesText:SetFont(self.fontText, 13)
@@ -315,34 +315,34 @@ function WowClassicIta:UpdateQuestsCommonTexts()
     QuestLogObjectivesText:SetText(sharedObjectiveText)
 
     --- Setup quests statc text elements
-    self:Trace("sharedRewardsText: " .. sharedRewardsText)
+    self:Trace("[Quests:UpdateQuestsCommonTexts] sharedRewardsText: " .. sharedRewardsText)
     QuestLogRewardTitleText:SetFont(self.fontHeader, 18)
     QuestLogRewardTitleText:SetText(sharedRewardsText)
 
     QuestInfoRewardsFrame.Header:SetFont(self.fontHeader, 18);
     QuestInfoRewardsFrame.Header:SetText(sharedRewardsText);
 
-    self:Trace("sharedDetailsText: " .. sharedDetailsText)
+    self:Trace("[Quests:UpdateQuestsCommonTexts] sharedDetailsText: " .. sharedDetailsText)
     QuestLogDescriptionTitle:SetFont(self.fontText, 13)
     QuestLogDescriptionTitle:SetText(sharedDetailsText)
 
-    self:Trace("sharedReqItemsText: " .. sharedReqItemsText)
+    self:Trace("[Quests:UpdateQuestsCommonTexts] sharedReqItemsText: " .. sharedReqItemsText)
     QuestProgressRequiredItemsText:SetFont(self.fontHeader, 18)
     QuestProgressRequiredItemsText:SetText(sharedReqItemsText)
 
-    self:Trace("sharedItemChooseRewards1Text: " .. sharedItemChooseRewards1Text)
+    self:Trace("[Quests:UpdateQuestsCommonTexts] sharedItemChooseRewards1Text: " .. sharedItemChooseRewards1Text)
     QuestLogItemChooseText:SetFont(self.fontText, 13)
     QuestLogItemChooseText:SetText(sharedItemChooseRewards1Text)
 
-    self:Trace("sharedMoneyRewardText: " .. sharedMoneyRewardText)
+    self:Trace("[Quests:UpdateQuestsCommonTexts] sharedMoneyRewardText: " .. sharedMoneyRewardText)
     QuestLogItemReceiveText:SetFont(self.fontText, 13)
     QuestLogItemReceiveText:SetText(sharedMoneyRewardText)
 
-    self:Trace("sharedItemChooseRewards2Text: " .. sharedItemChooseRewards2Text)
+    self:Trace("[Quests:UpdateQuestsCommonTexts] sharedItemChooseRewards2Text: " .. sharedItemChooseRewards2Text)
     QuestInfoRewardsFrame.ItemChooseText:SetFont(self.fontText, 13)
     QuestInfoRewardsFrame.ItemChooseText:SetText(sharedItemChooseRewards2Text)
 
-    self:Trace("sharedDetailsText: " .. sharedDetailsText)
+    self:Trace("[Quests:UpdateQuestsCommonTexts] sharedDetailsText: " .. sharedDetailsText)
     QuestLogQuestDescription:SetFont(self.fontText, 13)
     QuestLogQuestDescription:SetText(sharedDetailsText)
     QuestInfoDescriptionText:SetFont(self.fontText, 13)
