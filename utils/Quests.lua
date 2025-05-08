@@ -19,6 +19,7 @@ local WowClassicIta = _G.LibStub("AceAddon-3.0"):GetAddon(addonName)
 --- @return string|nil TranslatedData string if available, otherwise nil
 --- @private
 function WowClassicIta:translate(questID, needed)
+    self:Trace("|cFFFFC0CB[Quests:Translate]|r translate("..needed..") called!")
     local questsData = addonTable.QuestsData
 
     local needCamel = function() return needed ~= "questlevel" and needed ~= "minlevel" end
@@ -28,10 +29,10 @@ function WowClassicIta:translate(questID, needed)
 
     -- Get the current quest data if exists nil otherwise
     local currentQuestData = questsData[tostring(questID)] and questsData[tostring(questID)][accesser]
-
+    
     if not currentQuestData then
         if not questsData[tostring(questID)] then
-            self:Error("Quest ID " .. tostring(questID).. "is not defined in the database.")
+            self:Error("Quest ID " .. tostring(questID) .. "is not defined in the database.")
         elseif not questsData[tostring(questID)][accesser] then
             self:Error(accesser .. " section does not exists for quest ID " .. tostring(questID))
         end
@@ -39,10 +40,7 @@ function WowClassicIta:translate(questID, needed)
         self:PurgeTranslationForThisQuest(questID)
         return nil
     end
-
-    self:Debug("text(it): '" .. self:ExpandUnitInfoFromMsg(currentQuestData) .. "'")
-    self:Debug("text(en): '" .. self:original(needed, QuestLogFrame:IsShown()) .. "'")
-
+    self:Trace("|cFFFFC0CB[Quests:Translate]|r |cFFDDA0DDCquestData["..tostring(questID).."]["..accesser.."] = |r\n\""..currentQuestData.."\"")
     return self:ExpandUnitInfoFromMsg(currentQuestData)
 end
 
@@ -67,7 +65,7 @@ function WowClassicIta:original(needed, isQuestLogFrame)
     else
         self:Error("Invalid section requested: " .. tostring(needed))
         self:Warn("Returning empty string.")
-        return ""
+        return string.upper(needed)
     end
 end
 
@@ -76,11 +74,11 @@ end
 --- @param isQuestLogFrame boolean? Flag to indicate if QuestLogFrame or QuestFrame is used
 --- @return string translatedData TranslatedData translation text if available, original text if not
 function WowClassicIta:GetQuestTitle(questID, isQuestLogFrame)
-    if self.db.profile.disabled then
+    if self:FetchCurrentSetting().disabled then
         return self:original("title", isQuestLogFrame)
     end
 
-    if self.db.profile.quests.name then
+    if self:FetchCurrentSetting().quests.name then
         if self.isCurrentQuestTranslated then
             -- return translated string if available original string if not
             return self:translate(questID, "title") or self:original("title", isQuestLogFrame)
@@ -97,11 +95,11 @@ end
 ---@param isQuestLogFrame boolean? Flag to indicate if QuestLogFrame or QuestFrame is used
 ---@return string translatedData TranslatedData translation text if available, original text if not
 function WowClassicIta:GetQuestDescription(questID, isQuestLogFrame)
-    if self.db.profile.disabled then
+    if self:FetchCurrentSetting().disabled then
         return self:original("description", isQuestLogFrame)
     end
 
-    if self.db.profile.quests.description then
+    if self:FetchCurrentSetting().quests.description then
         if self.isCurrentQuestTranslated then
             -- return translated string if available original string if not
             return self:translate(questID, "description") or self:original("description", isQuestLogFrame)
@@ -119,18 +117,24 @@ end
 --- @param isQuestLogFrame boolean? Flag to indicate if QuestLogFrame or QuestFrame is used
 --- @return string translatedData translation text if available, original text if not
 function WowClassicIta:GetQuestObjectives(questID, isQuestLogFrame)
-    if self.db.profile.disabled then
+    self:Trace("|cFFFFC0CB[Quests:GetQuestObjectives]|r GetQuestObjectives() called!")
+    if self:FetchCurrentSetting().disabled then
+        self:Trace("|cFFFFC0CB[Quests:GetQuestObjectives]|r FetchCurrentSetting().disabled == true")
         return self:original("objectives", isQuestLogFrame)
     end
 
-    if self.db.profile.quests.objectives then
+    if self:FetchCurrentSetting().quests.objectives then
+        self:Trace("|cFFFFC0CB[Quests:GetQuestObjectives]|r FetchCurrentSetting().quests.objectives == true")
         if self.isCurrentQuestTranslated then
+            self:Trace("|cFFFFC0CB[Quests:GetQuestObjectives]|r isCurrentQuestTranslated == true")
             -- return translated string if available original string if not
             return self:translate(questID, "objectives") or self:original("objectives", isQuestLogFrame)
         else
+            self:Trace("|cFFFFC0CB[Quests:GetQuestObjectives]|r isCurrentQuestTranslated == false")
             return self:original("objectives", isQuestLogFrame)
         end
     else
+        self:Trace("|cFFFFC0CB[Quests:GetQuestObjectives]|r FetchCurrentSetting().quests.objectives == false")
         return self:original("objectives", isQuestLogFrame)
     end
 end
@@ -140,11 +144,11 @@ end
 --- @param isQuestLogFrame boolean? Flag to indicate if QuestLogFrame or QuestFrame is used
 --- @return string translatedData translation text if available, original text if not
 function WowClassicIta:GetQuestRewards(questID, isQuestLogFrame)
-    if self.db.profile.disabled then
+    if self:FetchCurrentSetting().disabled then
         return self:original("rewards", isQuestLogFrame)
     end
 
-    if self.db.profile.quests.rewards then
+    if self:FetchCurrentSetting().quests.rewards then
         if self.isCurrentQuestTranslated then
             -- return translated string if available original string if not
             return self:translate(questID, "rewards") or self:original("rewards", isQuestLogFrame)
@@ -161,11 +165,11 @@ end
 --- @param isQuestLogFrame boolean? Flag to indicate if QuestLogFrame or QuestFrame is used
 --- @return string translatedData translation text if available, original text if not
 function WowClassicIta:GetQuestCompletion(questID, isQuestLogFrame)
-    if self.db.profile.disabled then
+    if self:FetchCurrentSetting().disabled then
         return self:original("completion", isQuestLogFrame)
     end
 
-    if self.db.profile.quests.completion then
+    if self:FetchCurrentSetting().quests.completion then
         if self.isCurrentQuestTranslated then
             -- return translated string if available original string if not
             return self:translate(questID, "completion") or self:original("completion", isQuestLogFrame)
@@ -192,7 +196,6 @@ end
 function WowClassicIta:PurgeTranslationForThisQuest(questID)
     self.questFrameIdButton:SetDisabled(true)
     self.questLogIdButton:SetDisabled(true)
-    self.gossipIdButton:SetDisabled(true)
 
     local text = "Quest ID=" .. tostring(questID) .. " (" .. GetLocale() .. ") ";
     --- Set language in quest button
@@ -202,13 +205,15 @@ function WowClassicIta:PurgeTranslationForThisQuest(questID)
 end
 
 function WowClassicIta:PermitTranslationForThisQuest(questID)
-    local language = self.isCurrentQuestTranslated and "itIT" or GetLocale()
+    local language =
+        self.isCurrentQuestTranslated and
+        self:FetchCurrentSetting().quests.enabled and
+        "itIT" or GetLocale()
+
     local text = "Quest ID=" .. tostring(questID) .. " (" .. language .. ") ";
 
-    for _, button in pairs(self.widgets) do
-        button:SetDisabled(false)
-        button:SetText(text)
-    end
+    self.questFrameIdButton:SetDisabled(not self:FetchCurrentSetting().quests.enabled)
+    self.questFrameIdButton:SetText(text)
 end
 
 function WowClassicIta:GetQuestUxMessages()
@@ -223,7 +228,7 @@ end
 --- The structure of this table should include all necessary fields
 --- required to update the quest frame (e.g., quest title, objectives, etc.).
 function WowClassicIta:UpdateQuestFrame(questData)
-    self:Trace("[Quests:UpdateFrame] UpdateQuestFrame() called!")
+    self:Trace("|cFFFFC0CB[Quests:UpdateFrame]|r UpdateQuestFrame() called!")
 
     --- Update quest/quest-log frame common static text (like titles, rewards text, ecc.)
     self:UpdateQuestsCommonTexts()
@@ -237,7 +242,7 @@ function WowClassicIta:UpdateQuestFrame(questData)
     local questLevel = questData.questlevel
 
     if questTitle then
-        self:Debug("Current quest title: " .. questTitle)
+        self:Debug("|cFFDDA0DDCurrent quest title:|r " .. questTitle)
         -- Quest Log
         QuestLogQuestTitle:SetFont(self.fontHeader, 18)
         QuestLogQuestTitle:SetText(questTitle)
@@ -252,7 +257,7 @@ function WowClassicIta:UpdateQuestFrame(questData)
     end
 
     if questDescription then
-        self:Debug("Current quest description: " .. questDescription)
+        self:Debug("|cFFDDA0DDCurrent quest description:|r " .. questDescription)
         -- Quest Log
         QuestLogQuestDescription:SetFont(self.fontText, 13)
         QuestLogQuestDescription:SetText(questDescription)
@@ -263,7 +268,7 @@ function WowClassicIta:UpdateQuestFrame(questData)
     end
 
     if questObjectives then
-        self:Debug("Current quest objectives: " .. questObjectives)
+        self:Debug("|cFFDDA0DDCurrent quest objectives:|r " .. questObjectives)
 
         --- Quest Log
         QuestLogObjectivesText:SetFont(self.fontText, 13)
@@ -271,11 +276,11 @@ function WowClassicIta:UpdateQuestFrame(questData)
 
         --- Quest Frame
         QuestInfoObjectivesText:SetFont(self.fontText, 13)
-        QuestInfoObjectivesText:SetText(questDescription)
+        QuestInfoObjectivesText:SetText(questObjectives)
     end
 
     if questProgress then
-        self:Debug("Current quest progress: " .. questProgress)
+        self:Debug("|cFFDDA0DDCurrent quest progress:|r " .. questProgress)
 
         --- Quest Progressing
         QuestProgressText:SetFont(self.fontText, 13)
@@ -283,12 +288,11 @@ function WowClassicIta:UpdateQuestFrame(questData)
     end
 
     if questCompletion then
-        self:Debug("Current quest completion: " .. questCompletion)
+        self:Debug("|cFFDDA0DDCurrent quest completion:|r " .. questCompletion)
 
         -- Quest Frame
         QuestInfoRewardText:SetFont(self.fontText, 13)
         QuestInfoRewardText:SetText(questCompletion)
-
     end
 end
 
@@ -306,7 +310,7 @@ function WowClassicIta:UpdateQuestsCommonTexts()
     local sharedObjectiveText = commonQuestTextData.Objectives
     local sharedItemSingleRewardsText = commonQuestTextData.ItemSingleReward
 
-    self:Trace("[Core:QuestsUpdateQuestsCommonText] CosharedObjectiveText: " .. sharedObjectiveText)
+    self:Trace("|cFFFFC0CB[Core:QuestsUpdateQuestsCommonText]|r CosharedObjectiveText: " .. sharedObjectiveText)
     QuestInfoObjectivesHeader:SetFont(self.fontHeader, 18)
     QuestInfoObjectivesHeader:SetText(sharedObjectiveText)
     QuestInfoObjectivesText:SetFont(self.fontText, 13)
@@ -315,34 +319,36 @@ function WowClassicIta:UpdateQuestsCommonTexts()
     QuestLogObjectivesText:SetText(sharedObjectiveText)
 
     --- Setup quests statc text elements
-    self:Trace("[Quests:UpdateQuestsCommonTexts] sharedRewardsText: " .. sharedRewardsText)
+    self:Trace("|cFFFFC0CB[Quests:UpdateQuestsCommonTexts]|r sharedRewardsText: " .. sharedRewardsText)
     QuestLogRewardTitleText:SetFont(self.fontHeader, 18)
     QuestLogRewardTitleText:SetText(sharedRewardsText)
 
     QuestInfoRewardsFrame.Header:SetFont(self.fontHeader, 18);
     QuestInfoRewardsFrame.Header:SetText(sharedRewardsText);
 
-    self:Trace("[Quests:UpdateQuestsCommonTexts] sharedDetailsText: " .. sharedDetailsText)
+    self:Trace("|cFFFFC0CB[Quests:UpdateQuestsCommonTexts]|r sharedDetailsText: " .. sharedDetailsText)
     QuestLogDescriptionTitle:SetFont(self.fontText, 13)
     QuestLogDescriptionTitle:SetText(sharedDetailsText)
 
-    self:Trace("[Quests:UpdateQuestsCommonTexts] sharedReqItemsText: " .. sharedReqItemsText)
+    self:Trace("|cFFFFC0CB[Quests:UpdateQuestsCommonTexts]|r sharedReqItemsText: " .. sharedReqItemsText)
     QuestProgressRequiredItemsText:SetFont(self.fontHeader, 18)
     QuestProgressRequiredItemsText:SetText(sharedReqItemsText)
 
-    self:Trace("[Quests:UpdateQuestsCommonTexts] sharedItemChooseRewards1Text: " .. sharedItemChooseRewards1Text)
+    self:Trace("|cFFFFC0CB[Quests:UpdateQuestsCommonTexts]|r sharedItemChooseRewards1Text: " ..
+        sharedItemChooseRewards1Text)
     QuestLogItemChooseText:SetFont(self.fontText, 13)
     QuestLogItemChooseText:SetText(sharedItemChooseRewards1Text)
 
-    self:Trace("[Quests:UpdateQuestsCommonTexts] sharedMoneyRewardText: " .. sharedMoneyRewardText)
+    self:Trace("|cFFFFC0CB[Quests:UpdateQuestsCommonTexts]|r sharedMoneyRewardText: " .. sharedMoneyRewardText)
     QuestLogItemReceiveText:SetFont(self.fontText, 13)
     QuestLogItemReceiveText:SetText(sharedMoneyRewardText)
 
-    self:Trace("[Quests:UpdateQuestsCommonTexts] sharedItemChooseRewards2Text: " .. sharedItemChooseRewards2Text)
+    self:Trace("|cFFFFC0CB[Quests:UpdateQuestsCommonTexts]|r sharedItemChooseRewards2Text: " ..
+        sharedItemChooseRewards2Text)
     QuestInfoRewardsFrame.ItemChooseText:SetFont(self.fontText, 13)
     QuestInfoRewardsFrame.ItemChooseText:SetText(sharedItemChooseRewards2Text)
 
-    self:Trace("[Quests:UpdateQuestsCommonTexts] sharedDetailsText: " .. sharedDetailsText)
+    self:Trace("|cFFFFC0CB[Quests:UpdateQuestsCommonTexts]|r sharedDetailsText: " .. sharedDetailsText)
     QuestLogQuestDescription:SetFont(self.fontText, 13)
     QuestLogQuestDescription:SetText(sharedDetailsText)
     QuestInfoDescriptionText:SetFont(self.fontText, 13)
@@ -357,11 +363,11 @@ function WowClassicIta:UpdateQuestsCommonTexts()
 end
 
 function WowClassicIta:GetQuesLevel(questID, isQuestLogFrame)
-    if self.db.profile.disabled then
+    if self:FetchCurrentSetting().disabled then
         return self:original("questlevel", isQuestLogFrame)
     end
 
-    if self.db.profile.quests.completion then
+    if self:FetchCurrentSetting().quests.completion then
         if self.isCurrentQuestTranslated then
             -- return translated string if available original string if not
             return self:translate(questID, "questlevel") or self:original("questlevel", isQuestLogFrame)
