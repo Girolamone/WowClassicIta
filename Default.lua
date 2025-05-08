@@ -3,6 +3,8 @@ local addonName, addonTable = ...
 ---@class WowClassicIta
 local WowClassicIta = _G.LibStub("AceAddon-3.0"):GetAddon(addonName)
 
+--- This function is called when the add-on is loaded and initializes the default profile settings.
+---@return WowClassicItaSettings
 function WowClassicIta:GetDeafultProfile()
     return {
         profile = {
@@ -22,6 +24,7 @@ function WowClassicIta:GetDeafultProfile()
                 description = true,
                 rewards = true,
                 completion = true,
+                objectives = true,
             },
             gossip = {
                 enabled = true,

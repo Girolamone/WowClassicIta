@@ -1,9 +1,65 @@
+---@class WowClassicItaSettings Current addon configuration settings
+---@field disabled boolean Whether the add-on is disabled or not
+---@field quests table Quests settings
+---@field quests.enabled boolean Whether quest translations are enabled or not
+---@field quests.name boolean Whether quest name translations are enabled or not
+---@field quests.description boolean Whether quest description translations are enabled or not
+---@field quests.objectives boolean Whether quest objectives translations are enabled or not
+---@field quests.rewards boolean Whether quest rewards translations are enabled or not
+---@field quests.completion boolean Whether quest completion translations are enabled or not
+---@field spells table Spells settings
+---@field spells.enabled boolean Whether spell translations are enabled or not
+---@field spells.name boolean Whether spell name translations are enabled or not
+---@field spells.description boolean Whether spell description translations are enabled or not
+---@field items table Items settings
+---@field items.enabled boolean Whether item translations are enabled or not
+---@field items.name boolean Whether item name translations are enabled or not
+---@field items.description boolean Whether item description translations are enabled or not
+---@field gossip table Gossip settings
+---@field gossip.enabled boolean Whether gossip translations are enabled or not
+---@field gossip.name boolean Whether gossip name translations are enabled or not
+---@field gossip.description boolean Whether gossip description translations are enabled or not
+---@field logLevel number The log level for debugging purposes 
+
 local addonName, addonTable = ...
 
 ---@class WowClassicIta
 local WowClassicIta = _G.LibStub("AceAddon-3.0"):GetAddon(addonName)
 
 addonTable.GitHubURL = "https://github.com/Rez23/WowClassicIta"
+
+--- Get current settings for the add-on.
+--- This function retrieves the current settings for the add-on, including whether it is disabled and the status of various features.
+--- @return WowClassicItaSettings
+function WowClassicIta:FetchCurrentSetting()
+        return {
+            disabled = self.db.profile.disabled,
+            quests = {
+                enabled = self.db.profile.quests.enabled and not self.db.profile.disabled,
+                name = self.db.profile.quests.name and not self.db.profile.disabled,
+                description = self.db.profile.quests.description and not self.db.profile.disabled,
+                objectives = self.db.profile.quests.objectives and not self.db.profile.disabled,
+                rewards = self.db.profile.quests.rewards and not self.db.profile.disabled,
+                completion = self.db.profile.quests.completion and not self.db.profile.disabled,
+            },
+            spells = {
+                enabled = self.db.profile.spells.enabled and not self.db.profile.disabled,
+                name = self.db.profile.spells.name and not self.db.profile.disabled,
+                description = self.db.profile.spells.description and not self.db.profile.disabled,
+            },
+            items = {
+                enabled = self.db.profile.items.enabled and not self.db.profile.disabled,
+                name = self.db.profile.items.name and not self.db.profile.disabled,
+                description = self.db.profile.items.description and not self.db.profile.disabled,
+            },
+            gossip = {
+                enabled = self.db.profile.gossip.enabled and not self.db.profile.disabled,
+                name = self.db.profile.gossip.name and not self.db.profile.disabled,
+                description = self.db.profile.gossip.description and not self.db.profile.disabled,
+            },
+            logLevel = self.db.profile.logLevel,
+        }
+end
 
 function WowClassicIta:GetOptionsDataStruct()
     return {
@@ -15,7 +71,7 @@ function WowClassicIta:GetOptionsDataStruct()
                 name = "Enable",
                 desc = "Enable or disable the add-on.",
                 get = function(info) return not self.db.profile.disabled end,
-                set = function(info, value) if not value then self:HideAllButtons() else self:ShowAllButtons() end; self.db.profile.disabled = not value end,
+                set = function(info, value) if not value then self:TurnAddonsOff() else self:TurnAddonOn() end; end,
             },
             features = {
                 type = "group",
@@ -112,6 +168,14 @@ function WowClassicIta:GetOptionsDataStruct()
                                 disabled = function() return not self.db.profile.quests.enabled or self.db.profile.disabled end,
                                 get = function(info) return self.db.profile.quests.description end,
                                 set = function(info, value) self.db.profile.quests.description = value end,
+                            },
+                            objectives = {
+                                type = "toggle",
+                                name = "Quest Objectives",
+                                desc = "Enable or disable quest objectives translations.",
+                                disabled = function() return not self.db.profile.quests.enabled or self.db.profile.disabled end,
+                                get = function(info) return self.db.profile.quests.objectives end,
+                                set = function(info, value) self.db.profile.quests.objectives = value end,
                             },
                         },
                     },
