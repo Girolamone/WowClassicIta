@@ -270,80 +270,41 @@ function WowClassicIta:OnEnable()
         })
     end);
 
+    local onQuestFrameShown = function(eventName)
+        if not self:FetchCurrentSetting().quests.enabled then
+            --- If the quest translation is disabled, return without doing anything.
+            return
+        end
+
+        local questID = self:GetQuestID()
+
+        if not questID then
+            --- If the quest ID is not available, log an error
+            --- and return without doing anything.
+            self:Error("Impossible retrieve current Quest ID!")
+            return
+        end
+
+        self:PermitTranslationForThisQuest(questID)
+
+        --- Update the quest frame with the retrieved data
+        --- based on current event
+        if eventName == "QUEST_DETAIL" then 
+            self:Trace("|cFFFFC0CB[Core:RegisterEvent(QUEST_DETAIL)]|r event fired!")
+            self:UpdateQuestFrame({
+                Description = self:GetQuestDescription(questID),
+                Objectives = self:GetQuestObjectives(questID),
+            })
+        elseif eventName == "QUEST_COMPLETE" then
+            self:Trace("|cFFFFC0CB[Core:RegisterEvent(QUEST_COMPLETE)]|r event fired!")
+            self:UpdateQuestFrame({
+                Completion = self:GetQuestCompletion(questID),
+            })
+        end
+    end
+
     --- the player get details from a quest.
-    self:RegisterEvent('QUEST_DETAIL', function()
-        self:Trace("|cFFFFC0CB[Core:RegisterEvent(QUEST_DETAIL)]|r event fired!")
-        if not self:FetchCurrentSetting().quests.enabled then
-            --- If the quest translation is disabled, return without doing anything.
-            return
-        end
-
-        local questID = self:GetQuestID()
-
-        if not questID then
-            --- If the quest ID is not available, log an error
-            --- and return without doing anything.
-            self:Error("Impossible retrieve current Quest ID!")
-            return
-        end
-
-        self:PermitTranslationForThisQuest(questID)
-
-        -- Update the quest frame with the retrieved data
-        self:UpdateQuestFrame({
-            --Title = self:GetQuestTitle(questID),
-            Description = self:GetQuestDescription(questID),
-            Objectives = self:GetQuestObjectives(questID),
-        })
-    end);
-
+    self:RegisterEvent('QUEST_DETAIL', onQuestFrameShown);
     --- the player complete a quest.
-    self:RegisterEvent('QUEST_COMPLETE', function()
-        self:Trace("|cFFFFC0CB[Core:RegisterEvent(QUEST_COMPLETE)]|r event fired!")
-        if not self:FetchCurrentSetting().quests.enabled then
-            --- If the quest translation is disabled, return without doing anything.
-            return
-        end
-
-        local questID = self:GetQuestID()
-
-        if not questID then
-            --- If the quest ID is not available, log an error
-            --- and return without doing anything.
-            self:Error("Impossible retrieve current Quest ID!")
-            return
-        end
-
-        self:PermitTranslationForThisQuest(questID)
-
-        -- Update the quest frame with the retrieved data
-        self:UpdateQuestFrame({
-            --Title = self:GetQuestTitle(questID),
-            Complete = self:GetQuestCompletion(questID),
-        })
-    end);
-
-    --[[
-    self:RegisterEvent("GOSSIP_SHOW", function()
-        if not self:GetSetting().gossips.enabled then
-            --- If the gossip translation is disabled, return without doing anything.
-            return
-        end
-
-        local gossipID = self:GetGossipID()
-
-        if not gossipID then
-            --- If the gossip ID is not available, log an error
-            --- and return without doing anything.
-            self:Error("Impossible retrieve current Gossip ID!")
-            return
-        end
-
-        self:PermitTranslationForThisQuest(gossipID)
-
-        -- Update the quest frame with the retrieved data
-        self:UpdateQuestFrame({
-            Title = self:GetGossipTitle(gossipID),
-        })
-    end);]]
+    self:RegisterEvent('QUEST_COMPLETE', onQuestFrameShown);
 end
