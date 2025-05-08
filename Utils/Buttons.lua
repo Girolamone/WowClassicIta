@@ -4,9 +4,9 @@ local addonName, addonTable = ...
 local WowClassicIta = _G.LibStub("AceAddon-3.0"):GetAddon(addonName)
 
 ---@class BtnsStateRules
----@field questsLogBtn boolean Whether to show quest buttons
----@field gossipFrameBtn boolean Whether to show gossip buttons
----@field questFrameBtn boolean Whether to show quest frame buttons
+---@field questsLogBtn boolean? Whether to show quest buttons
+---@field gossipFrameBtn boolean? Whether to show gossip buttons
+---@field questFrameBtn boolean? Whether to show quest frame buttons
 
 --- Creates custom buttons for the quest frame in the WowClassicIta addon.
 --- This function is responsible for adding UI elements to the quest frame,
@@ -23,11 +23,13 @@ function WowClassicIta:CreateButtonsOnGameFrames()
     local gossipIdButton = AceGUI:Create("Button")
     ---@type AceGUIButton
     local questLogIdButton = AceGUI:Create("Button")
+    ---@type AceGUIButton
+    local questSettingsButton = AceGUI:Create("Button")
 
     --- QuestFrame button
     questFrameIdButton:SetWidth(170)
     questFrameIdButton:SetText("Quest ID=?")
-    
+
     --- QuestLogFrame button
     questLogIdButton:SetWidth(170)
     questLogIdButton:SetHeight(22)
@@ -37,6 +39,9 @@ function WowClassicIta:CreateButtonsOnGameFrames()
     gossipIdButton:SetWidth(150)
     gossipIdButton:SetHeight(20)
     gossipIdButton:SetText("Gossip ID=?")
+
+    --- QuestSettings button
+    questSettingsButton:SetText("WCI")
 
     ---@type AceGUISimpleGroup
     local questFrameWidgetContainer = AceGUI:Create("SimpleGroup")
@@ -61,11 +66,12 @@ function WowClassicIta:CreateButtonsOnGameFrames()
     ---@diagnostic disable: invisible
     questFrameWidgetContainer.frame:SetParent(QuestFrame)
     questFrameWidgetContainer.frame:ClearAllPoints()
-    questFrameWidgetContainer.frame:SetPoint("TOP", QuestFrame, "TOP", 55,-45)
+    questFrameWidgetContainer.frame:SetPoint("TOP", QuestFrame, "TOP", 55, -45)
     questFrameWidgetContainer:SetFullWidth(true)
     questFrameWidgetContainer:SetFullHeight(true)
     questFrameWidgetContainer:SetLayout("Flow")
     questFrameWidgetContainer:AddChild(questFrameIdButton)
+    --questFrameWidgetContainer:AddChild(gossipIdButton)
     questFrameWidgetContainer:DoLayout()
 
     questLogWidgetContainer.frame:SetParent(QuestLogFrame)
@@ -75,6 +81,7 @@ function WowClassicIta:CreateButtonsOnGameFrames()
     questLogWidgetContainer:SetFullHeight(true)
     questLogWidgetContainer:SetLayout("Flow")
     questLogWidgetContainer:AddChild(questLogIdButton)
+    --questLogWidgetContainer:AddChild(questSettingsButton)
     questLogWidgetContainer:DoLayout()
     ---@diagnostic enable: invisible
 
@@ -85,9 +92,8 @@ function WowClassicIta:CreateButtonsOnGameFrames()
         gossipFrameWidgetContainer = gossipFrameWidgetContainer,
     }
 
-    --- Handle click events for the button
-    local onCLickHandler = function(button)
-        self:Trace("[Buttons:OnClickHandler] Quest button clicked -> onClickHandler() fired!")
+    questFrameIdButton:SetCallback("OnClick", function()
+        self:Trace("|cFFFFC0CB[Buttons:OnClickHandler]|r Quest button clicked -> onClickHandler() fired!")
 
         --- When the button is clicked, toggle the translation
         self.isCurrentQuestTranslated = not self.isCurrentQuestTranslated
@@ -98,7 +104,15 @@ function WowClassicIta:CreateButtonsOnGameFrames()
             return
         end
 
-        self:PermitTranslationForThisQuest(questID)
+        local language =
+            self.isCurrentQuestTranslated and
+            self:FetchCurrentSetting().quests.enabled and
+            "itIT" or GetLocale()
+        local text = "Quest ID=" .. tostring(questID) .. " (" .. language .. ") ";
+
+        local button = self.widgets.questFrameToggle
+        button:SetDisabled(not self:FetchCurrentSetting().quests.enabled)
+        button:SetText(text)
 
         -- Update quest frame text based on the current user settings
         self:UpdateQuestFrame({
@@ -106,33 +120,89 @@ function WowClassicIta:CreateButtonsOnGameFrames()
             Objectives = self:GetQuestObjectives(questID),
             Completion = self:GetQuestCompletion(questID),
         })
-    end
+    end);
 
-    questFrameIdButton:SetCallback("OnClick", onCLickHandler);
-    questLogIdButton:SetCallback("OnClick", onCLickHandler);
-    gossipIdButton:SetCallback("OnClick", onCLickHandler);
+    questLogIdButton:SetCallback("OnClick", function()
+        self:Trace("|cFFFFC0CB[Buttons:OnClickHandler]|r Quest button clicked -> onClickHandler() fired!")
+
+        --- When the button is clicked, toggle the translation
+        self.isCurrentQuestTranslated = not self.isCurrentQuestTranslated
+
+        local questID = self:GetQuestID()
+        if not questID then
+            self:Error("Impossible to retrieve current Quest ID from WOW API!")
+            return
+        end
+
+        local language =
+            self.isCurrentQuestTranslated and
+            self:FetchCurrentSetting().quests.enabled and
+            "itIT" or GetLocale()
+
+        local text = "Quest ID=" .. tostring(questID) .. " (" .. language .. ") ";
+
+        local button = self.widgets.questLogFrameToggle
+        button:SetDisabled(self:FetchCurrentSetting().quests.enabled)
+        button:SetText(text)
+
+
+        -- Update quest frame text based on the current user settings
+        self:UpdateQuestFrame({
+            Description = self:GetQuestDescription(questID),
+            Objectives = self:GetQuestObjectives(questID),
+            Completion = self:GetQuestCompletion(questID),
+        })
+    end);
+
+    gossipIdButton:SetCallback("OnClick", function()
+        self:Trace("|cFFFFC0CB[Buttons:OnClickHandler]|r Quest button clicked -> onClickHandler() fired!")
+
+        --- When the button is clicked, toggle the translation
+        self.isCurrentQuestTranslated = not self.isCurrentQuestTranslated
+
+        local questID = self:GetQuestID()
+        if not questID then
+            self:Error("Impossible to retrieve current Quest ID from WOW API!")
+            return
+        end
+
+        local language =
+            self.isCurrentQuestTranslated and
+            self:FetchCurrentSetting().quests.enabled and
+            "itIT" or GetLocale()
+        local text = "Quest ID=" .. tostring(questID) .. " (" .. language .. ") ";
+
+        local button = self.widgets.gossipFrameToggle
+        button:SetDisabled(not self:FetchCurrentSetting().quests.enabled)
+        button:SetText(text)
+
+        -- Update quest frame text based on the current user settings
+        self:UpdateQuestFrame({
+            Description = self:GetQuestDescription(questID),
+            Objectives = self:GetQuestObjectives(questID),
+            Completion = self:GetQuestCompletion(questID),
+        })
+    end);
 
     return questFrameIdButton, questLogIdButton, gossipIdButton
-end
-
-function WowClassicIta:HideAllButtons()
-    self.questFrameIdButton.frame:Hide()
-    self.questLogIdButton.frame:Hide()
-    self.gossipIdButton.frame:Hide()
-    self:Info("Add-on disabled. All features are turned off.")
-end
-
-function WowClassicIta:ShowAllButtons()
-    if self.db.profile.quests.enabled then self.widgets.questFrameToggle.frame:Show() end
-    if self.db.profile.quests.enabled then self.widgets.questLogFrameToggle.frame:Show() end
-    if self.db.profile.gossip.enabled then self.widgets.gossipFrameToggle.frame:Show() end
-    self:Info("Add-on enabled. All features turned on according with the user setting.")
 end
 
 --- Set the state of the buttons based on the provided setting.
 ---@param btnStatus BtnsStateRules Contain state rules for the buttons.
 function WowClassicIta:SetButtonsState(btnStatus)
-    self.widgets.gossipFrameToggle.SetDiabled(not btnStatus.gossipFrameBtn)
-    self.widgets.questLogFrameToggle.SetDisabled(not btnStatus.questsLogBtn)
-    self.widgets.questFrameToggle.SetDisabled(not btnStatus.questFrameBtn)
+    if btnStatus.gossipFrameBtn ~= nil then self.widgets.gossipFrameToggle.SetDiabled(not btnStatus.gossipFrameBtn) end
+    if btnStatus.questsLogBtn ~= nil then self.widgets.questLogFrameToggle.SetDisabled(not btnStatus.questsLogBtn) end
+    if btnStatus.questFrameBtn ~= nil then self.widgets.questFrameToggle.SetDisabled(not btnStatus.questFrameBtn) end
+end
+
+function WowClassicIta:HideAllButtons()
+    for _, widget in pairs(self.widgetContainer) do
+        widget.frame:Hide()
+    end
+end
+
+function WowClassicIta:ShowAllButtons()
+    for _, widget in pairs(self.widgetContainer) do
+        widget.frame:Show()
+    end
 end

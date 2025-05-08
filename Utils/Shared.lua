@@ -33,3 +33,19 @@ function WowClassicIta:SmartGetUiSharedText()
        return addonTable.SharedUiTextData["itIT"]
    end
 end
+
+function WowClassicIta:TurnAddonsOff()
+    self.db.profile.disabled = true
+    
+    self:HideAllButtons()
+
+    self:Info("Add-on disabled. All features are turned off.")
+end
+
+function WowClassicIta:TurnAddonOn()
+    self.db.profile.disabled = false
+
+    self:ShowAllButtons()
+    
+    self:Info("Add-on enabled. All features turned on according with the user setting.")
+end

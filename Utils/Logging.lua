@@ -14,7 +14,7 @@ local loggingLevels = {
 
 function WowClassicIta:Debug(str)
     if self.db.profile.logLevel >= loggingLevels["DEBUG"] then
-        self:Printf("|cFF00FF00[v%s][DEBUG]|r %s", self:GetVersion(), str)
+        self:Printf("|cFF00FFFF[v%s][DEBUG]|r %s", self:GetVersion(), str)
     end
 end
 
@@ -32,18 +32,23 @@ end
 
 function WowClassicIta:Warn(str)
     if self.db.profile.logLevel >= loggingLevels["WARN"] then
-        self:Printf("|cFFFF8000[v%s][WARN]|r %s", self:GetVersion(), str)
+        self:Printf("|cFFFF0000[v%s][WARN]|r %s", self:GetVersion(), str)
     end
 end
 
 function WowClassicIta:Trace(str)
     if self.db.profile.logLevel >= loggingLevels["TRACE"] then
-        self:Printf("|cFF00FFFF[v%s][TRACE]|r %s", self:GetVersion(), str)
+        self:Printf("|cFFFFA500[v%s][TRACE]|r %s", self:GetVersion(), str)
     end
 end
 
 function WowClassicIta:GetVersion()
-    --
+    --@debug@
+    return "v0.1-debug"
+    --@end-debug@
+    --[==[@non-debug@
+    -- Get the version of the add-on from its metadata
     local version = GetAddOnMetadata(addonName, "Version")
     return version or "Unknown"
+    @end-non-debug]==]
 end
