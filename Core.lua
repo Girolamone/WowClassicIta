@@ -214,12 +214,11 @@ function WowClassicIta:OnEnable()
         self:Trace("|cFFFFC0CB[Core:EmptyQuestLogFrame:Hooks:OnShow]|r EmptyQuestLogFrame hoocked OnShow() started!")
         self.questLogIdButton:Hide()
     end)]]
-    --self:SecureHook('SelectQuestLogEntry', onSelectQuestLogEntry)
     self:SecureHook('SelectQuestLogEntry', function ()
         self:Trace("|cFFFFC0CB[Core:Hooks:SelectQuestLogEntry]|r Quest Log Entry clicked!")
-        if not self:FetchCurrentSetting().quests.enabled or self:FetchCurrentSetting().disable then
+        if not self:FetchCurrentSetting().quests.enabled or self:FetchCurrentSetting().disabled then
             --- If the quest translation is disabled, return without doing anything.
-            self:Debug("Quest translation is disabled, so return without doing anything.")
+            self:Trace("Quest translation is disabled, so return without doing anything.")
             return
         end
 
@@ -244,32 +243,7 @@ function WowClassicIta:OnEnable()
         self:Debug("|cFFDDA0DDPlayer sex:|r " .. self.characterSex)
     end)
 
-    --- the player progress inside a quest.
-    self:RegisterEvent('QUEST_PROGRESS', function()
-        self:Trace("|cFFFFC0CB[Core:RegisterEvents(QUEST_PROGRESS)]|r event fired!")
-        if not self:FetchCurrentSetting().quests.enabled then
-            --- If the quest translation is disabled, return without doing anything.
-            return
-        end
-
-        local questID = self:GetQuestID()
-
-        if not questID then
-            --- If the quest ID is not available, log an error
-            --- and return without doing anything.
-            self:Error("Impossible retrieve current Quest ID!")
-            return
-        end
-
-        self:PermitTranslationForThisQuest(questID)
-
-        -- Update the quest frame with according with the user settings
-        self:UpdateQuestFrame({
-            --Title = self:GetQuestTitle(questID),
-            Progress = self:GetQuestCompletion(questID),
-        })
-    end);
-
+    --- Handles the quest frame events
     local onQuestFrameShown = function(eventName)
         if not self:FetchCurrentSetting().quests.enabled then
             --- If the quest translation is disabled, return without doing anything.
@@ -300,9 +274,15 @@ function WowClassicIta:OnEnable()
             self:UpdateQuestFrame({
                 Completion = self:GetQuestCompletion(questID),
             })
+        elseif eventName == "QUEST_PROGRESS" then
+            self:Trace("|cFFFFC0CB[Core:RegisterEvent(QUEST_PROGRESS)]|r event fired!")
+            self:UpdateQuestFrame({
+                Objectives = self:GetQuestObjectives(questID),
+            })
         end
     end
-
+    --- the player progress inside a quest.
+    self:RegisterEvent('QUEST_PROGRESS', onQuestFrameShown);
     --- the player get details from a quest.
     self:RegisterEvent('QUEST_DETAIL', onQuestFrameShown);
     --- the player complete a quest.
