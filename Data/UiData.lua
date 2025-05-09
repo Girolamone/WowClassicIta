@@ -29,7 +29,6 @@ addonTable.SharedUiTextData = {}
 --- @field SettingsFrameText AddonGuiTextData
 --- @field QuestsCommonText QuestsCommonTextsData
 
-
 -- itIT
 --- @type SharedUiTextData
 addonTable.SharedUiTextData['itIT'] = {
