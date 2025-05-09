@@ -1,3 +1,28 @@
+--- @class NewTooltipData
+--- @field name string The name of the tooltip item.
+--- @field description string The description of the tooltip item.
+
+--- @alias SpellData NewTooltipData
+--- @alias ItemData NewTooltipData
+--- @alias SkillData NewTooltipData
+--- @alias QuestTooltipData NewTooltipData
+
+---@class QuestsStringsData
+---@field Title string?
+---@field Description string?
+---@field Objectives string?
+---@field Progress string?
+---@field Completion string?
+---@field minlevel string?
+---@field questlevel string?
+
+--- @alias QuestFrameType
+--- | "q_log" # Quest Log Frame
+--- | "q_info"  # Quest Info Frame
+--- | "q_progress" # Quest Progress Frame
+--- | "q_complete" # Quest Completion Frame
+--- | "q_all" # All Frames
+
 local addonName, addonTable = ...
 
 --- @class WowClassicIta
