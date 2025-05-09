@@ -160,7 +160,7 @@ function WowClassicIta:OnEnable()
         self:Error("If you want, open an issue at: " .. addonTable.GitHubURL)
         self:UnregisterAllEvents()
         return
-    elseif not gossipIdButton and self:FetchCurrentSetting().gossips.enable and not self:FetchCurrentSetting().disabled then
+    elseif not gossipIdButton and self:FetchCurrentSetting().gossip.enable and not self:FetchCurrentSetting().disabled then
         self:Error("Impossible to create the gossip frame button!")
         self:Error("Extension cannot be loaded, so will be disabled.")
         self:Error("If you want, open an issue at: " .. addonTable.GitHubURL)
