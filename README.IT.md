@@ -20,7 +20,7 @@ Installa l'addon tramite [CurseForge](https://link-to-curseforge).
     C:/Program Files (x86)/World of Warcraft/_classic_/Interface/AddOns/
     ```
 3. Assicurati che la cartella sia nominata `WowClassicIta`.
-4. Riavvia World of Warcraft Classic.
+4. Ricarica World of Warcraft Classic (`/reload`).
 
 ## Utilizzo
 1. Avvia World of Warcraft Classic.
