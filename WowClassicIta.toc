@@ -31,6 +31,7 @@ Core.lua
 Default.lua
 Options.lua
 
+Utils\Translation.lua
 Utils\Shared.lua
 Utils\Quests.lua
 Utils\Logging.lua
