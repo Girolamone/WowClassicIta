@@ -44,7 +44,7 @@ end
 
 function WowClassicIta:GetVersion()
     --@debug@
-    return "v0.1-debug"
+    return "TESTING"
     --@end-debug@
     --[==[@non-debug@
     -- Get the version of the add-on from its metadata
