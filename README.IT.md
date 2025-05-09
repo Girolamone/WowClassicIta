@@ -10,8 +10,6 @@ WowClassicIta è un addon per World of Warcraft Classic progettato per migliorar
 - [ ] Traduzione in italiano per gli oggetti.
 - [ ] Traduzione in italiano per le skills.
 
-## Scarica
-Installa l'addon tramite [CurseForge](https://link-to-curseforge).
 
 ## Installazione Manuale
 1. Scarica l'addon dal repository o dal tuo gestore di addon preferito.

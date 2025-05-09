@@ -10,9 +10,6 @@ WowClassicIta is a World of Warcraft Classic addon designed to enhance your game
 - [ ] Italian translation for items
 - [ ] Italian translation for skills
 
-## Get
-Install addon via [CurseForge](https://link-to-curseforge)
-
 ## Manual Installation
 1. Download the addon from the repository or your preferred addon manager.
 2. Extract the downloaded folder into your WoW Classic addons directory:
