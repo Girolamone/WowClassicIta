@@ -150,7 +150,7 @@ function WowClassicIta:PurgeTranslationForThisQuest(questID)
 end
 
 function WowClassicIta:GetQuestUxMessages()
-
+    return nil
 end
 
 function WowClassicIta:GetQuesLevel(questID, isQuestLogFrame)
