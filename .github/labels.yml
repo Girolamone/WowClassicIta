@@ -71,3 +71,7 @@
   name: "Hacktoberfest-accepted :mending_heart:"
   color: "123123"
   description: "Accepted for Hacktoberfest"
+- # Translation Propose
+  name: "translation-proposals :tada:"
+  color: "fef2c0"
+  description: "Translation proposals"
