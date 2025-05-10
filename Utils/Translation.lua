@@ -30,7 +30,8 @@ function WowClassicIta:GetTranslatedQuest(questID, needed)
         self:PurgeTranslationForThisQuest(questID)
         return nil
     end
-    self:Trace("|cFFFFC0CB[Quests:Translate]|r |cFFDDA0DDCquestData["..tostring(questID).."]["..accesser.."] = |r\n\""..currentQuestData.."\"")
+    self:Trace("|cFFFFC0CB[Quests:Translate]|r |cFFDDA0DDCquestData[" ..
+        tostring(questID) .. "][" .. accesser .. "] = |r\n\"" .. currentQuestData .. "\"")
     return self:ExpandUnitInfoFromMsg(currentQuestData)
 end
 
