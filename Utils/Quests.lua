@@ -148,18 +148,6 @@ function WowClassicIta:PurgeTranslationForThisQuest(questID)
     self.gossipIdButton:SetText(text)
 end
 
-function WowClassicIta:PermitTranslationForThisQuest(questID)
-    local language =
-        self.isCurrentQuestTranslated and
-        self:FetchCurrentSetting().quests.enabled and
-        "itIT" or GetLocale()
-
-    local text = "Quest ID=" .. tostring(questID) .. " (" .. language .. ") ";
-
-    self.questFrameIdButton:SetDisabled(not self:FetchCurrentSetting().quests.enabled)
-    self.questFrameIdButton:SetText(text)
-end
-
 function WowClassicIta:GetQuestUxMessages()
 
 end

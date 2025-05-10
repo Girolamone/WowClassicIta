@@ -206,3 +206,20 @@ function WowClassicIta:ShowAllButtons()
         widget.frame:Show()
     end
 end
+
+--- Enable interface buttons and set button interface ui text to questID 
+---
+--- @param questID number The unique identifier of the quest to permit translation for.
+function WowClassicIta:PermitTranslationForThisQuest(questID)
+    local language =
+        self.isCurrentQuestTranslated and
+        self:FetchCurrentSetting().quests.enabled and
+        "itIT" or GetLocale()
+
+    local text = "Quest ID=" .. tostring(questID) .. " (" .. language .. ") ";
+
+    for _, button in pairs(self.widgets) do
+        button:SetDisabled(not self:FetchCurrentSetting().quests.enabled)
+        button:SetText(text)
+    end
+end
