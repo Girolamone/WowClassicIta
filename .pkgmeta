@@ -12,6 +12,7 @@ externals:
 
 ignore:
     - README.md
+    - README.IT.md
     - .github
     - .packager
     - .release
