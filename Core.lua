@@ -204,7 +204,16 @@ function WowClassicIta:OnEnable()
             return
         end
 
-        self:PermitTranslationForThisQuest(questID)
+        local language =
+            self.isCurrentQuestTranslated and
+            self:FetchCurrentSetting().quests.enabled and
+            "itIT" or GetLocale()
+
+        local text = "Quest ID=" .. tostring(questID) .. " (" .. language .. ") ";
+
+        local button = self.widgets.questLogFrameToggle
+        button:SetDisabled(not self:FetchCurrentSetting().quests.enabled)
+        button:SetText(text)
 
         -- Update quest frame text based on the current user settings
         self:UpdateQuestFrame({
