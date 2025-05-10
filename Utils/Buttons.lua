@@ -148,9 +148,9 @@ function WowClassicIta:CreateButtonsOnGameFrames()
 
         -- Update quest frame text based on the current user settings
         self:UpdateQuestFrame({
-            Description = self:GetQuestDescription(questID),
-            Objectives = self:GetQuestObjectives(questID),
-            Completion = self:GetQuestCompletion(questID),
+            Description = self:GetQuestDescription(questID, QuestLogFrame:IsShown()),
+            Objectives = self:GetQuestObjectives(questID, QuestLogFrame:IsShown()),
+            Completion = self:GetQuestCompletion(questID, QuestLogFrame:IsShown()),
         })
     end);
 
