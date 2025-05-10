@@ -9,7 +9,7 @@ local WowClassicIta = _G.LibStub("AceAddon-3.0"):GetAddon(addonName)
 --- @return string|nil TranslatedData string if available, otherwise nil
 --- @private
 function WowClassicIta:GetTranslatedQuest(questID, needed)
-    self:Trace("|cFFFFC0CB[Quests:Translate]|r GetTranslatedQuest("..needed..") called!")
+    self:Trace("|cFFFFC0CB[Quests:Translate]|r GetTranslatedQuest(" .. needed .. ") called!")
     local questsData = addonTable.QuestsData
 
     local needCamel = function() return needed ~= "questlevel" and needed ~= "minlevel" end
