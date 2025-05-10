@@ -228,7 +228,8 @@ function WowClassicIta:OnEnable()
         self:Trace("|cFFFFC0CB[Core:EmptyQuestLogFrame:Hooks:OnShow]|r EmptyQuestLogFrame hoocked OnShow() started!")
         self.questLogIdButton:Hide()
     end)]]
-    self:SecureHook('SelectQuestLogEntry', function ()
+
+    self:SecureHook('SelectQuestLogEntry', function()
         self:Trace("|cFFFFC0CB[Core:Hooks:SelectQuestLogEntry]|r Quest Log Entry clicked!")
         if not self:FetchCurrentSetting().quests.enabled or self:FetchCurrentSetting().disabled then
             --- If the quest translation is disabled, return without doing anything.
