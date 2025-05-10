@@ -45,7 +45,7 @@ function WowClassicIta:GetOriginalQuest(needed, isQuestLogFrame)
     elseif needed == "description" then
         return isQuestLogFrame and select(1, GetQuestLogQuestText(GetQuestLogSelection())) or GetQuestText()
     elseif needed == "objectives" then
-        return isQuestLogFrame and select(1, GetQuestLogQuestText(GetQuestLogSelection())) or GetObjectiveText()
+        return isQuestLogFrame and select(2, GetQuestLogQuestText(GetQuestLogSelection())) or GetObjectiveText()
     elseif needed == "completion" then
         return isQuestLogFrame and GetQuestLogCompletionText(GetQuestLogSelection()) or GetRewardText()
     elseif needed == "progress" then
