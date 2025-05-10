@@ -68,7 +68,7 @@ function WowClassicIta:OnInitialize()
                 print("Commands:")
 
                 -- Loop through available commands from your options table.
-                for key, option in pairs(addonTable.options.args) do
+                for key, option in pairs(self:GetOptionsDataStruct().args) do
                     local desc = option.desc or "No description provided."
                     print("  " .. key .. " - " .. desc)
                 end
