@@ -192,6 +192,11 @@ function WowClassicIta:OnEnable()
     local onSelectQuestLogEntry = function()
         self:Trace("|cFFFFC0CB[Core:onSelectQuestLogEntry]|r Fired function handler")
         local questID = self:GetQuestID()
+        if not QuestLogFrame:IsShown() then
+            self:Trace("|cFFFFC0CB[Core:onSelectQuestLogEntry]|r Quest Log Frame is not shown!")
+            return
+        end
+
         if not questID then
             --- If the quest ID is not available, log an error
             --- and return without doing anything.
