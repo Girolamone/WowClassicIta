@@ -78,7 +78,7 @@ function WowClassicIta:OnInitialize()
         end)
     end
 
-    --@to-not-package@
+    --@do-not-package@
     -- Register separate slash command for reset DB manually
     self:RegisterChatCommand("wciresetdb", function()
         self:Print("Resetting the database...")
