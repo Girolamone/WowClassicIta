@@ -46,7 +46,8 @@ function WowClassicIta:GetQuestDescription(questID, isQuestLogFrame)
     if self:FetchCurrentSetting().quests.description then
         if self.isCurrentQuestTranslated then
             -- return translated string if available original string if not
-            return self:GetTranslatedQuest(questID, "description") or self:GetOriginalQuest("description", isQuestLogFrame)
+            return self:GetTranslatedQuest(questID, "description") 
+                or self:GetOriginalQuest("description", isQuestLogFrame)
         else
             return self:GetOriginalQuest("description", isQuestLogFrame)
         end
