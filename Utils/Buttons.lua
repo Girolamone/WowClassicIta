@@ -142,7 +142,7 @@ function WowClassicIta:CreateButtonsOnGameFrames()
         local text = "Quest ID=" .. tostring(questID) .. " (" .. language .. ") ";
 
         local button = self.widgets.questLogFrameToggle
-        button:SetDisabled(self:FetchCurrentSetting().quests.enabled)
+        button:SetDisabled(not self:FetchCurrentSetting().quests.enabled)
         button:SetText(text)
 
 
