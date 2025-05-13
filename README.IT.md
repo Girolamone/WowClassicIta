@@ -67,7 +67,7 @@ Se desideri contribuire allo sviluppo di WowClassicIta e lavorare con la version
   - Collega la cartella delle librerie generata dal packager alla cartella principale:
 
       ```powershell
-      New-Item -ItemType Junction -Path .\Libs -Value ".\releases\WowClassicIta\Libs"
+      New-Item -ItemType Junction -Path .\Libs -Value ".\.releases\WowClassicIta\Libs"
       ```
 
 - Ricarica World of Warcraft.
