@@ -34,7 +34,8 @@ function WowClassicIta:GetDeafultProfile()
 
             disabled = false,
             --@debug@
-            logLevel = 4
+            logLevel = 3,
+            debugButtons = true,
             --@end-debug@
             --[==[@non-debug
             logLevel = 0,
