@@ -10,7 +10,6 @@ WowClassicIta è un addon per World of Warcraft Classic progettato per migliorar
 - [ ] Traduzione in italiano per gli oggetti.
 - [ ] Traduzione in italiano per le skills.
 
-
 ## Installazione Manuale
 1. Scarica l'addon dal repository o dal tuo gestore di addon preferito.
 2. Estrai la cartella scaricata nella directory degli addon di WoW Classic:
@@ -36,3 +35,13 @@ In caso di problemi o se hai suggerimenti, apri un issue nel repository o contat
 Questo addon è distribuito sotto Licenza MIT. Vedi il file LICENSE per ulteriori dettagli.
 
 Buone avventure ad Azeroth con WowClassicIta!
+
+## Crediti e Ringraziamenti
+
+Un enorme grazie a tutti coloro che hanno contribuito o contribuiranno allo sviluppo e al testing di WowClassicIta.
+
+Un ringraziamento speciale a:
+- [@Girolamone](https://github.com/Girolamone) per la traduzione in italiano delle quest e per il suo lavoro [qui](https://github.com/Girolamone/WoWita-quests).
+- Icedany per la traduzione originale per PC che mi ha guidato nel mio lavoro.
+- Gli sviluppatori e i manutentori delle librerie Ace3 utilizzate in questo progetto.
+- @N6REJ e il suo [wowAddonTemplate](https://github.com/N6REJ/wowAddonTemplate) sul quale si basa questo progetto.
