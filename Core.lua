@@ -288,7 +288,7 @@ function WowClassicIta:OnEnable()
 
         --- Update the quest frame with the retrieved data
         --- based on current event
-        if eventName == "QUEST_DETAIL" then 
+        if eventName == "QUEST_DETAIL" then
             self:Trace("|cFFFFC0CB[Core:RegisterEvent(QUEST_DETAIL)]|r event fired!")
             self:UpdateQuestFrame({
                 Description = self:GetQuestDescription(questID),
