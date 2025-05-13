@@ -71,3 +71,7 @@
   name: "translation-proposals :tada:"
   color: "fef2c0"
   description: "Translation proposals"
+- # Translation
+  name: "missing-translations :speech_balloon:"
+  color: "f9d0c4"
+  description: "Missing translations segnalations"
