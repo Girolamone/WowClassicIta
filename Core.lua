@@ -144,6 +144,16 @@ function WowClassicIta:OnEnable()
     debugButtonsContainer:AddChild(resetDbButton)
     debugButtonsContainer:AddChild(globalExtOnOffButton)
     debugButtonsContainer:DoLayout()
+
+    if (self:FetchCurrentSetting().debugButtons) then
+        ---@diagnostic disable-next-line: invisible
+        debugButtonsContainer.frame:Show()
+    else
+        ---@diagnostic disable-next-line: invisible
+        debugButtonsContainer.frame:Hide()
+    end
+
+    self.debugButtonsContainer = debugButtonsContainer
     --@end-do-not-package@
 
     local questFrameIdButton, questLogIdButton, gossipIdButton = self:CreateButtonsOnGameFrames()
