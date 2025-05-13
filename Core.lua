@@ -306,10 +306,17 @@ function WowClassicIta:OnEnable()
             })
         end
     end
+
     --- the player progress inside a quest.
-    self:RegisterEvent('QUEST_PROGRESS', onQuestFrameShown);
+    self:RegisterEvent('QUEST_PROGRESS', function(eventName) 
+        self:ScheduleTimer(onQuestFrameShown, 0.1, eventName) 
+    end);
     --- the player get details from a quest.
-    self:RegisterEvent('QUEST_DETAIL', onQuestFrameShown);
+    self:RegisterEvent('QUEST_DETAIL', function(eventName) 
+        self:ScheduleTimer(onQuestFrameShown, 0.1, eventName) 
+    end);
     --- the player complete a quest.
-    self:RegisterEvent('QUEST_COMPLETE', onQuestFrameShown);
+    self:RegisterEvent('QUEST_COMPLETE', function(eventName) 
+        self:ScheduleTimer(onQuestFrameShown, 0.1, eventName) 
+    end);
 end
