@@ -36,3 +36,13 @@ If you encounter any issues or have suggestions, feel free to open an issue in t
 This addon is distributed under the MIT License. See the LICENSE file for more details.
 
 Enjoy your adventures in Azeroth with WowClassicIta!
+
+## Credits and Thanks
+
+A big thank you to everyone who has contributed or will contribute to the development and testing of WowClassicIta.
+
+Special thanks goes to:
+- @Girolamone for the Italian quests translations and for his work [here](https://github.com/Girolamone/WoWita-quests).
+- Icedany for the original PC translation that helped me really a lot.
+- The developers and maintainers of the Ace3 libraries largely used by this project.
+- @N6REJ and its [wowAddonTemplate](https://github.com/N6REJ/wowAddonTemplate) that I used as base for the project
