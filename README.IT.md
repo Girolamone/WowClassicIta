@@ -41,7 +41,7 @@ Se desideri contribuire allo sviluppo di WowClassicIta e lavorare con la version
    git clone https://github.com/rez23/WowClassicIta
    ```
 
-- Collega la cartella del tuo progetto addon alla cartella degli addon di WoW. Ad esempio, su sistemi Windows:
+- Linka la cartella del tuo progetto addon alla cartella degli addon di WoW. Ad esempio, su sistemi Windows:
 
    ```powershell
    New-Item -ItemType Junction -Path "D:\Battlenet\games\World of Warcraft\_classic_era_\Interface\AddOns\WowClassicIta" -Value ".\WowClassicIta"
@@ -64,7 +64,7 @@ Se desideri contribuire allo sviluppo di WowClassicIta e lavorare con la version
      ```
 
      Questo comando costruirà l'addon saltando la creazione dello ZIP e l'upload.
-  - Collega la cartella delle librerie generata dal packager alla cartella principale:
+  - Linka la cartella delle librerie generata dal packager alla cartella principale:
 
       ```powershell
       New-Item -ItemType Junction -Path .\Libs -Value ".\.releases\WowClassicIta\Libs"
