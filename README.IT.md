@@ -45,3 +45,4 @@ Un ringraziamento speciale a:
 - Icedany per la traduzione originale per PC che mi ha guidato nel mio lavoro.
 - Gli sviluppatori e i manutentori delle librerie Ace3 utilizzate in questo progetto.
 - @N6REJ e il suo [wowAddonTemplate](https://github.com/N6REJ/wowAddonTemplate) sul quale si basa questo progetto.
+- I devs di [packeger](https://github.com/BigWigsMods/packager) per il loro fantastico generatore

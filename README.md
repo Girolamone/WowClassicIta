@@ -46,3 +46,4 @@ Special thanks goes to:
 - Icedany for the original PC translation that helped me really a lot.
 - The developers and maintainers of the Ace3 libraries largely used by this project.
 - @N6REJ and its [wowAddonTemplate](https://github.com/N6REJ/wowAddonTemplate) that I used as base for the project
+- [packager](https://github.com/BigWigsMods/packager) developers for their incredibly powerful generator
