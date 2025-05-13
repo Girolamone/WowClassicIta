@@ -1,3 +1,0 @@
-[submodule ".docs/wow-api"]
-	path = .docs/wow-api
-	url = git@github.com:Ellypse/IntelliJ-IDEA-Lua-IDE-WoW-API.git
