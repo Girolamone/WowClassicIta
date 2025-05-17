@@ -248,7 +248,10 @@ function WowClassicIta:OnEnable()
         end
 
         -- Schedule the delayed execution after 1 second (adjust the delay as needed)
-        self:ScheduleTimer(onSelectQuestLogEntry, 0.1)
+        self:ScheduleTimer(function()
+            self:UpdateQuestsCommonTexts("q_log");
+            onSelectQuestLogEntry();
+        end, 0.1)
     end)
 
     --QuestLogDetailScrollFrame:HookScript("OnShow", onSelectQuestLogEntry);
@@ -309,14 +312,17 @@ function WowClassicIta:OnEnable()
 
     --- the player progress inside a quest.
     self:RegisterEvent('QUEST_PROGRESS', function(eventName)
-        self:ScheduleTimer(onQuestFrameShown, 0.1, eventName)
+        self:UpdateQuestsCommonTexts("q_progress")
+        onQuestFrameShown(eventName)
     end);
     --- the player get details from a quest.
     self:RegisterEvent('QUEST_DETAIL', function(eventName)
-        self:ScheduleTimer(onQuestFrameShown, 0.1, eventName)
+        self:UpdateQuestsCommonTexts("q_info")
+        onQuestFrameShown(eventName)
     end);
     --- the player complete a quest.
     self:RegisterEvent('QUEST_COMPLETE', function(eventName)
-        self:ScheduleTimer(onQuestFrameShown, 0.1, eventName)
+        self:UpdateQuestsCommonTexts("q_complete")
+        onQuestFrameShown(eventName)
     end);
 end

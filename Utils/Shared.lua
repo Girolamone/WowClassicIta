@@ -85,9 +85,6 @@ end
 function WowClassicIta:UpdateQuestFrame(questData)
     self:Trace("|cFFFFC0CB[Quests:UpdateFrame]|r UpdateQuestFrame() called!")
 
-    --- Update quest/quest-log frame common static text (like titles, rewards text, ecc.)
-    self:UpdateQuestsCommonTexts("q_all")
-
     local questTitle = questData.Title
     local questDescription = questData.Description
     local questObjectives = questData.Objectives
