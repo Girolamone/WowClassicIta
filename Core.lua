@@ -234,10 +234,10 @@ function WowClassicIta:OnEnable()
     end
 
     --QuestLogDetailScrollFrame:HookScript("OnShow", onQuestLogEntryClick)
-    --[[EmptyQuestLogFrame:HookScript("OnShow", function()
+    EmptyQuestLogFrame:HookScript("OnShow", function()
         self:Trace("|cFFFFC0CB[Core:EmptyQuestLogFrame:Hooks:OnShow]|r EmptyQuestLogFrame hoocked OnShow() started!")
         self.widgets.questLogFrameToggle.frame:Hide()
-    end)]]
+    end)
 
     self:SecureHook('SelectQuestLogEntry', function()
         self:Trace("|cFFFFC0CB[Core:Hooks:SelectQuestLogEntry]|r Quest Log Entry clicked!")
